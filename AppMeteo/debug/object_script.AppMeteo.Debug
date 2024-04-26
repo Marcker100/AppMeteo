@@ -1,0 +1,16 @@
+debug/addWin.o
+debug/gestoreSensori.o
+debug/main.o
+debug/mainWindow.o
+debug/sensore.o
+debug/sensoreGrafico.o
+debug/sensorePolveri.o
+debug/sensorePressione.o
+debug/sensoreTemp.o
+debug/sensoreUmid.o
+debug/sensoreUv.o
+debug/qrc_icons.o
+debug/moc_addWin.o
+debug/moc_gestoreSensori.o
+debug/moc_mainWindow.o
+debug/moc_sensoreGrafico.o
