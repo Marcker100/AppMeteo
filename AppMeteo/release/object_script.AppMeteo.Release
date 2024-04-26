@@ -1,0 +1,16 @@
+release/addWin.o
+release/gestoreSensori.o
+release/main.o
+release/mainWindow.o
+release/sensore.o
+release/sensoreGrafico.o
+release/sensorePolveri.o
+release/sensorePressione.o
+release/sensoreTemp.o
+release/sensoreUmid.o
+release/sensoreUv.o
+release/qrc_icons.o
+release/moc_addWin.o
+release/moc_gestoreSensori.o
+release/moc_mainWindow.o
+release/moc_sensoreGrafico.o

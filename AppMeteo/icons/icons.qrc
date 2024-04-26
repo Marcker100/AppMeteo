@@ -1,0 +1,22 @@
+<RCC>
+    <qresource prefix="/">
+        <file>add_folder_icon_216116.svg</file>
+        <file>celsius_temperature_icon_216882.svg</file>
+        <file>drop_rain_icon_216751.svg</file>
+        <file>dust_windy_icon_217212.svg</file>
+        <file>folder_icon_216115.svg</file>
+        <file>icons.qrc</file>
+        <file>index_uv_icon_217162.svg</file>
+        <file>line_chart_icon_215576.svg</file>
+        <file>misuse_icon_216308.svg</file>
+        <file>reflect_vertical_icon_137257.svg</file>
+        <file>save_icon_216824.svg</file>
+        <file>search_icon_216897.svg</file>
+        <file>settings_icon_216966.svg</file>
+        <file>smooth_line_chart_icon_215770.svg</file>
+        <file>tab_new_icon_216619.svg</file>
+        <file>app.svg</file>
+        <file>bin.svg</file>
+        <file>modifica.svg</file>
+    </qresource>
+</RCC>
