@@ -5,7 +5,8 @@
 class sensoreUmid : public sensore {
 public:
     sensoreUmid(const QString &nome,const QString &id,const QString &descrizione, QVector<double> &umidita);
-    //void accept(SensorVisitor& visitor, QPushButton* button, int& codiceU) override;
+    void accept(sensoreVisitor& visitor) override;
+    void accept(sensoreVisitorConst& visitor) const override;
     QVector<double> getUmidita() const;
 
 private:

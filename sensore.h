@@ -3,8 +3,8 @@
 
 #include <QString>
 #include <QList>
-//#include "SensorVisitor.h"
-//#include "SensorVisitorConst.h"
+#include "sensorVisitor.h"
+#include "sensoreVisitorConst.h"
 
 
 
@@ -19,7 +19,8 @@ public:
     QString getDescrizione() const;
 
     // Metodo virtuale puro per accettare un visitatore
-  //  virtual void accept(SensorVisitor& visitor, QPushButton* button, int& codice) = 0;
+    virtual void accept(sensoreVisitor& visitor) = 0;
+    virtual void accept(sensoreVisitorConst& visitor) const = 0;
 
 private:
     QString nome;
