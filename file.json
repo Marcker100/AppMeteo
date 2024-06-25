@@ -1,0 +1,34 @@
+[
+    {
+        "description": "",
+        "id": "0",
+        "name": "marco",
+        "records": [
+        ],
+        "type": "temperatura"
+    },
+    {
+        "description": "",
+        "id": "0",
+        "name": "piedi",
+        "records": [
+        ],
+        "type": "temperatura"
+    },
+    {
+        "description": "",
+        "id": "0",
+        "name": "fukdgty",
+        "records": [
+        ],
+        "type": "pressione"
+    },
+    {
+        "description": "",
+        "id": "0",
+        "name": "jfd",
+        "records": [
+        ],
+        "type": "raggi uv"
+    }
+]

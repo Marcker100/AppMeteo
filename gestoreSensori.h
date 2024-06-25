@@ -13,6 +13,7 @@ public:
 
     void addSens(sensore* sensor);
     void delSens(sensore* sensor);
+    const QVector<sensore*>& getSensori();
 
     //segnali che servono
 signals:
@@ -20,7 +21,7 @@ signals:
     void sensorCancellato(sensore* sensor);
 
 private:
-    QList<sensore*> sensori;
+    QVector<sensore*> sensori;
 };
 
 #endif // GESTORESENSORI_H gestoreSensori gestoreSensori();

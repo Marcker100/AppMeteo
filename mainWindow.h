@@ -6,6 +6,8 @@
 #include "sensoreGrafico.h"
 #include "ui_mainWindow.h"
 #include "addWin.h"
+#include <QtCharts/QChartView>
+#include <QtCharts/QLineSeries>
 
 #include <QMainWindow>
 #include <QMap>
@@ -32,16 +34,28 @@ private slots:
     void on_Find_textChanged(const QString &arg1);
     void on_actionQuit_triggered();
 
-
+    void updateButtons(sensore* nuovoSensore);
     void on_Add_clicked();
 
+    void on_actionSave_triggered();
+
+    void pulsanteSelezionato(sensore* sensoreScelto);
+
+
+    void on_simula_clicked();
+
 private:
+    QLabel *nome_sensore;
+    QLabel *parametri;
+
     Ui::MainWindow *ui;
-    gestoreSensori gestore;
+    gestoreSensori *gestore;
     sensore* sensoreSelezionato=nullptr;
     QMap<sensore*, QPushButton*> mappaSens;
-    QMap<sensore*, sensoreGrafico*> mappaGrafici;
-    AddWin *mAddWindow;
+    QMap<QString, sensoreGrafico*> sensoriGrafici;
+    QMap<QString, QChartView*> chartViews;
+    addWin *mAddWindow;
+    QVBoxLayout* containerLayout;
 
 };
 #endif // MAINWINDOW_H

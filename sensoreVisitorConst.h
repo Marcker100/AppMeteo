@@ -2,21 +2,22 @@
 #define SENSORVISITORCONST_H
 
 #include "QPushButton"
-#include "sensoreTemp.h"
-#include "sensorePolveri.h"
-#include "sensoreUmid.h"
-#include "sensoreUv.h"
-#include "sensorePressione.h"
+
+class sensoreTemp;
+class sensorePolveri;
+class sensoreUmid;
+class sensoreUv;
+class sensorePressione;
 
 
     // Interfaccia Visitor
     class sensoreVisitorConst {
 public:
-    virtual void visit(const sensoreTemp& temp, QPushButton* button, int& codiceT) = 0;
-    virtual void visit(const sensoreUmid& umid, QPushButton* button, int& codiceU) = 0;
-    virtual void visit(const sensorePolveri& polv, QPushButton* button, int& codiceP) = 0;
-    virtual void visit(const sensoreUv& temp, QPushButton* button, int& codiceT) = 0;
-    virtual void visit(const sensorePressione& temp, QPushButton* button, int& codiceT) = 0;
+        virtual void visit(const sensorePolveri& sens)=0;
+        virtual void visit(const sensorePressione& sens)=0;
+        virtual void visit(const sensoreTemp& sens)=0;
+        virtual void visit(const sensoreUmid& sens)=0;
+        virtual void visit(const sensoreUv& sens)=0;
 };
 
 

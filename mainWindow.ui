@@ -35,352 +35,7 @@
     <string notr="true">color: rgb(255, 255, 255);</string>
    </property>
    <layout class="QGridLayout" name="gridLayout_2">
-    <item row="0" column="0" rowspan="8">
-     <widget class="QScrollArea" name="scrollArea">
-      <property name="maximumSize">
-       <size>
-        <width>200</width>
-        <height>16777215</height>
-       </size>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QScrollBar {
-        border: none;
-        background: white;
-        width: 10px;
-    }
-QScrollBar::handle {
-        background: lightgrey;
-        border: 2px solid lightgrey;
-        border-radius: 5px;
-}
-QScrollBar::handle:hover {
-        background: grey;
-}
-QScrollBar::add-line:vertical {
-        border: none;
-        background: none;
-		 height: 10px;
-        subcontrol-position: top;
-        subcontrol-origin: margin;
-    }
-QScrollBar::sub-line:vertical {
-        border: none;
-        background: none;
-        height: 10px;
-        subcontrol-position: bottom;
-        subcontrol-origin: margin;
-    }
-    QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
-        background: none;
-}</string>
-      </property>
-      <property name="widgetResizable">
-       <bool>true</bool>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-      </property>
-      <widget class="QWidget" name="scrollAreaWidgetContents_2">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>198</width>
-         <height>564</height>
-        </rect>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <layout class="QVBoxLayout" name="verticalLayout">
-        <item>
-         <widget class="QFrame" name="frame_scroll">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>100</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="autoFillBackground">
-           <bool>false</bool>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">color: rgb(0, 0, 0);</string>
-          </property>
-          <property name="frameShape">
-           <enum>QFrame::StyledPanel</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
-          </property>
-          <layout class="QVBoxLayout" name="verticalLayout_2">
-           <property name="sizeConstraint">
-            <enum>QLayout::SetDefaultConstraint</enum>
-           </property>
-           <item>
-            <widget class="QLineEdit" name="Find">
-             <property name="styleSheet">
-              <string notr="true">QLineEdit {
-	color: rgb(0, 0, 0);
-&quot;background-image: url(:/icons/search_icon_216897.svg);
-background-size: 5px 5px;
-background-repeat: no-repeat;
-background-position: left;
-padding-left: 30px;&quot;
-}
-</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignHCenter|Qt::AlignTop</set>
-             </property>
-             <property name="clearButtonEnabled">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QFrame" name="frame_add_delete">
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>40</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>50</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QFrame{
-
-}</string>
-             </property>
-             <property name="frameShape">
-              <enum>QFrame::StyledPanel</enum>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Raised</enum>
-             </property>
-             <layout class="QHBoxLayout" name="horizontalLayout">
-              <item>
-               <widget class="QPushButton" name="Add">
-                <property name="styleSheet">
-                 <string notr="true">*{	
-		background-color: #b3cde0;
-		color: #fff;
-	
-}
-QPushButton{
-       border-radius: 6px;
-		border-right: 1px solid #b3cde0;
-		border-bottom: 1px solid #b3cde0;
-		font-weight: bold;
-		color: black;
-
-}
-QPushButton:hover:!pressed {
-		background-color: #6497b1;
-		color: black;
-		
-}</string>
-                </property>
-                <property name="text">
-                 <string>ADD NEW SENSOR</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="test">
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>70</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>70</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QPushButton{
-	image: url(:/icons/tab_new_icon_216619.svg);
-       border-radius: 35px;
-		border-right: 1px solid #189ad3;
-		border-bottom: 1px solid #189ad3;
-
-}
-
-QPushButton:enabled {
-		background-color: #189ad3;
-		color: white;
-}
-
-QPushButton:pressed {
-		background-color: white;
-		color: white;
-}
-
-
-QPushButton:hover:!pressed {
-		background-color: #E1F4FF;
-		color: #0c2f70;
-}
-
-QPushButton:disabled {
-		background-color: #aaaaaa;
-		color: #ffffff;
-}
-</string>
-             </property>
-             <property name="text">
-              <string>Test</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="umidita">
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>70</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>70</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QPushButton{
-background-repeat: no-repeat;
-background-position: left;
-padding-left: 10px;
-color: rgb(0, 0, 0);
-border: 2px solid black
-}</string>
-             </property>
-             <property name="text">
-              <string>Umidità</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="temperatura">
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>70</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>70</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">color: rgb(0, 0, 0);</string>
-             </property>
-             <property name="text">
-              <string>Temperatura</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="raggiuv">
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>70</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>70</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">color: rgb(0, 0, 0);</string>
-             </property>
-             <property name="text">
-              <string>Raggi UV</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pressione">
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>70</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>70</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">color: rgb(0, 0, 0);</string>
-             </property>
-             <property name="text">
-              <string>Pressione</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="polveri">
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>70</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>70</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">color: rgb(0, 0, 0);</string>
-             </property>
-             <property name="text">
-              <string>Polveri sottili</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-     </widget>
-    </item>
-    <item row="0" column="2" rowspan="8">
+    <item row="0" column="2" rowspan="2">
      <widget class="QFrame" name="frame_sensor">
       <property name="enabled">
        <bool>true</bool>
@@ -415,10 +70,16 @@ background-color: rgb(255, 255, 255);
           <item>
            <widget class="QLabel" name="nome_sensore">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+             <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>500</width>
+              <height>0</height>
+             </size>
             </property>
             <property name="maximumSize">
              <size>
@@ -435,12 +96,18 @@ border-radius: 6px
 }</string>
             </property>
             <property name="text">
-             <string>TEMP-A413F</string>
+             <string/>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QToolButton" name="simula">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="styleSheet">
              <string notr="true">QToolButton { 
 image: url(:/line_chart_icon_215576.svg); 	        
@@ -461,6 +128,12 @@ QToolButton:hover:!pressed {
           </item>
           <item>
            <widget class="QToolButton" name="modifica">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="styleSheet">
              <string notr="true">QToolButton { 
 image: url(:/modifica.svg); 	        
@@ -480,6 +153,12 @@ QToolButton:hover:!pressed {
           </item>
           <item>
            <widget class="QToolButton" name="cancella">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="styleSheet">
              <string notr="true">QToolButton { 
 image: url(:/bin.svg); 	        
@@ -556,7 +235,7 @@ border-radius: 6px;
 }</string>
             </property>
             <property name="text">
-             <string>descrizione parametri TEMP HUM DUST UV PRES giovanni descrizione parametri TEMP HUM DUST UV PRES giovannidescrizione parametri TEMP HUM DUST UV PRES giovannidescrizione parametri TEMP HUM DUST UV PRES giovanni</string>
+             <string/>
             </property>
             <property name="scaledContents">
              <bool>false</bool>
@@ -590,6 +269,135 @@ border-radius: 6px;
         </widget>
        </item>
       </layout>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QFrame" name="frame_scroll">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>200</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>200</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(0, 0, 0);</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QGridLayout" name="gridLayout">
+       <property name="sizeConstraint">
+        <enum>QLayout::SetDefaultConstraint</enum>
+       </property>
+       <item row="0" column="0">
+        <widget class="QLineEdit" name="Find">
+         <property name="styleSheet">
+          <string notr="true">QLineEdit {
+	color: rgb(0, 0, 0);
+&quot;background-image: url(:/icons/search_icon_216897.svg);
+background-size: 5px 5px;
+background-repeat: no-repeat;
+background-position: left;
+padding-left: 30px;&quot;
+}
+</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignHCenter|Qt::AlignTop</set>
+         </property>
+         <property name="clearButtonEnabled">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QFrame" name="frame_add_delete">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>40</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QFrame{
+
+}</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QPushButton" name="Add">
+            <property name="styleSheet">
+             <string notr="true">*{	
+		background-color: #b3cde0;
+		color: #fff;
+	
+}
+QPushButton{
+       border-radius: 6px;
+		border-right: 1px solid #b3cde0;
+		border-bottom: 1px solid #b3cde0;
+		font-weight: bold;
+		color: black;
+
+}
+QPushButton:hover:!pressed {
+		background-color: #6497b1;
+		color: black;
+		
+}</string>
+            </property>
+            <property name="text">
+             <string>ADD NEW SENSOR</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QFrame" name="lista">
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
      </widget>
     </item>
    </layout>

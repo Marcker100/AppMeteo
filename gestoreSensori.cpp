@@ -21,3 +21,8 @@ void gestoreSensori::delSens(sensore* sensor) {
         emit sensorCancellato(sensor);  // Emette il segnale quando un sensor viene cancellato
     }
 }
+const QVector<sensore*>& gestoreSensori::getSensori(){
+    return sensori;
+}
+
+

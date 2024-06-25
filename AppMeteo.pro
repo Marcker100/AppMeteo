@@ -9,10 +9,15 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    Json/Reader.cpp \
+    Json/json.cpp \
+    Json/jsonFile.cpp \
+    Json/jsonVisitor.cpp \
     addWin.cpp \
     gestoreSensori.cpp \
     main.cpp \
     mainWindow.cpp \
+    randomvaluegenerator.cpp \
     sensore.cpp \
     sensoreGrafico.cpp \
     sensorePolveri.cpp \
@@ -22,9 +27,15 @@ SOURCES += \
     sensoreUv.cpp
 
 HEADERS += \
+    Json/IReader.h \
+    Json/Reader.h \
+    Json/json.h \
+    Json/jsonFile.h \
+    Json/jsonVisitor.h \
     addWin.h \
     gestoreSensori.h \
     mainWindow.h \
+    randomvaluegenerator.h \
     sensorVisitor.h \
     sensore.h \
     sensoreGrafico.h \

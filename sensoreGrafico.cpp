@@ -1,62 +1,73 @@
 #include "sensoreGrafico.h"
-#include <cstdlib> // per rand() e RAND_MAX
-#include <ctime> // per time()
-#include <QtGlobal>  // For Q_COREAPP_EXPORT
-#include <QtCore/QRandomGenerator>
+#include "sensorePolveri.h"
+#include "sensorePressione.h"
+#include "sensoreTemp.h"
+#include "sensoreUmid.h"
+#include "sensoreUv.h"
+#include <QDebug>
 
-sensoreGrafico::sensoreGrafico(const QString &tipo, QFrame *frame, QObject *parent)
-    :QObject(parent), m_nome(tipo), m_frame(frame), m_series(new QLineSeries()), m_chartView(nullptr) {
-    // Inizializza il generatore di numeri casuali.
-    srand(time(NULL));
+sensoreGrafico::sensoreGrafico(sensore* sens, QFrame *frame, QObject *parent)
+    : QObject(parent), m_sensore(sens), m_frame(frame)
+{
+    m_series = new QLineSeries(this);
+    m_chart = new QChart();
+    m_chartView = new QChartView(m_chart, m_frame);
+    m_chartView->setRenderHint(QPainter::Antialiasing);
 
-    QChart *chart = new QChart();
-    chart->legend()->hide();
-    chart->addSeries(m_series);
-    chart->createDefaultAxes();
-    chart->setTitle("Sensor Data");
-
-    m_chartView = new QChartView(chart);
-    QVBoxLayout *layout = new QVBoxLayout(m_frame);
-    layout->addWidget(m_chartView);
+    createEmptyChart();
 }
 
-void sensoreGrafico::updateChart() {
-    int numValori=10;
-    QVector<double> newValue = generateRandomValues(numValori);
-    for(int i = 0; i < numValori; ++i){
-        m_series->append(i, newValue[i]);
+void sensoreGrafico::createEmptyChart()
+{
+    m_chart->removeAllSeries();
+    m_series->clear();
+
+    m_chart->addSeries(m_series);
+    m_chart->createDefaultAxes();
+    m_chart->setTitle(m_sensore->getNome() + " - Grafico");
+
+    // Imposta il range dell'asse Y in base al tipo di sensore
+    QValueAxis *axisY = qobject_cast<QValueAxis*>(m_chart->axisY());
+    if (axisY) {
+        if (dynamic_cast<const sensorePolveri*>(m_sensore)) {
+            axisY->setRange(5.0, 30.0);
+        } else if (dynamic_cast<const sensorePressione*>(m_sensore)) {
+            axisY->setRange(990.0, 1030.0);
+        } else if (dynamic_cast<const sensoreTemp*>(m_sensore)) {
+            axisY->setRange(-10.0, 40.0);
+        } else if (dynamic_cast<const sensoreUmid*>(m_sensore)) {
+            axisY->setRange(20.0, 100.0);
+        } else if (dynamic_cast<const sensoreUv*>(m_sensore)) {
+            axisY->setRange(1.0, 10.0);
+        }
     }
-    m_chartView->update();
+
+    QValueAxis *axisX = qobject_cast<QValueAxis*>(m_chart->axisX());
+    if (axisX) {
+        axisX->setRange(0, 23);  // Per 24 ore
+        axisX->setTickCount(13); // Per mostrare ogni 2 ore
+        axisX->setLabelFormat("%d");
+    }
+
+    m_chartView->setChart(m_chart);
+    m_chartView->setMinimumSize(400, 300);
 }
 
+void sensoreGrafico::updateChartWithNewData()
+{
+    m_series->clear();
 
+    // Usa RandomValueGenerator per generare valori
+    m_sensore->accept(m_generator);
+    QVector<double> values = m_generator.values;
 
-QVector<double> sensoreGrafico::generateRandomValues(int numValori) {
-    qreal lowerBound, upperBound;
-    qInfo() << "Sensore in uso: " << m_nome;
+    qDebug() << "Valori generati per " << m_sensore->getNome() << ": " << values;
 
-    // Imposta i limiti per ogni sensore
-    if (m_nome == "Temperatura") {
-        lowerBound = -10.0;
-        upperBound = 35.0;
-    } else if (m_nome == "Umidità") {
-        lowerBound = 10.0;
-        upperBound = 100.0;
-    } else if (m_nome == "Polveri Sottili") {
-        lowerBound = 0.0;
-        upperBound = 5.0;
-    } else {
-        return QVector<double>(); // Restituisce un vettore vuoto se il sensore non è riconosciuto
+    for (int i = 0; i < values.size(); ++i) {
+        m_series->append(i, values[i]);
     }
 
-    // Genera un QVector di valori casuali
-    QVector<double> valori;
-    QRandomGenerator generatore; // Generatore di numeri casuali
-    for (int i = 0; i < numValori; ++i) {
-        valori.append(lowerBound + generatore.bounded(upperBound - lowerBound));
-    }
-
-    return valori;
+    m_chart->removeSeries(m_series);
+    m_chart->addSeries(m_series);
+    m_chart->createDefaultAxes();
 }
-
-
