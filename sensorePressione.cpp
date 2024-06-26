@@ -9,6 +9,11 @@ void sensorePressione::accept(sensoreVisitor& visitor) {
 void sensorePressione::accept(sensoreVisitorConst& visitor ) const {
     visitor.visit(*this);
 }
+
+void sensorePressione::setData(QVector<double> v){
+    pressione = v;
+}
+
 QVector<double> sensorePressione::getPressione() const { return pressione; }
 
 
