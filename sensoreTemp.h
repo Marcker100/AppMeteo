@@ -9,6 +9,9 @@ public:
     void accept(sensoreVisitorConst& visitor) const override;
     QVector<double> getTemperatura() const;
     void setTemperatura(const QVector<double>& newTemperatura) { temperatura = newTemperatura; }
+
+    void setData(QVector<double> v);
+
 private:
     QVector<double> temperatura;
 
