@@ -10,6 +10,8 @@ public:
     QVector<double> getPressione() const;
     void setPressione(const QVector<double>& newPressione) { pressione = newPressione; }
 
+    void setData(QVector<double> v);
+
 private:
     QVector<double> pressione;
 };
