@@ -8,5 +8,10 @@ void sensoreUmid::accept(sensoreVisitor& visitor) {
 }
 void sensoreUmid::accept(sensoreVisitorConst& visitor ) const {
     visitor.visit(*this);
+    
+void sensoreUmid::setData(QVector<double> v){
+    umidita = v;
+}
+    
 }
 QVector<double> sensoreUmid::getUmidita() const { return umidita; }
