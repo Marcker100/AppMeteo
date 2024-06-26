@@ -8,6 +8,11 @@ void sensoreTemp::accept(sensoreVisitor& visitor) {
 }
 void sensoreTemp::accept(sensoreVisitorConst& visitor ) const {
     visitor.visit(*this);
+
+void sensoreTemp::setData(QVector<double> v){
+    temperatura = v;
+}
+    
 }
 QVector<double> sensoreTemp::getTemperatura() const { return temperatura; }
 
