@@ -11,6 +11,7 @@ public:
     QVector<double> getConcentrazione() const;
     void setPolveri(const QVector<double>& newPolveri) { concentrazione = newPolveri; }
 
+    void setData(QVector<double> v);
 
 private:
     QVector<double> concentrazione;
