@@ -10,6 +10,8 @@ public:
     QVector<double> getUv() const;
     void setUv(const QVector<double>& newUv) { uv = newUv; }
 
+    void setData(QVector<double> v);
+
 private:
     QVector<double> uv;
 
