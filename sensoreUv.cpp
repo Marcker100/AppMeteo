@@ -8,5 +8,10 @@ void sensoreUv::accept(sensoreVisitor& visitor) {
 }
 void sensoreUv::accept(sensoreVisitorConst& visitor ) const {
     visitor.visit(*this);
+    
+void sensoreUv::setData(QVector<double> v){
+    uv = v;
+}
+    
 }
 QVector<double> sensoreUv::getUv() const { return uv; }
