@@ -10,4 +10,8 @@ void sensorePolveri::accept(sensoreVisitorConst& visitor ) const {
     visitor.visit(*this);
 }
 
+void sensorePolveri::setData(QVector<double> v){
+    concentrazione = v;
+}
+
 QVector<double> sensorePolveri::getConcentrazione() const { return concentrazione; }
