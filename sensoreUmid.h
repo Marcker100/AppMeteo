@@ -10,6 +10,8 @@ public:
     QVector<double> getUmidita() const;
     void setUmidita(const QVector<double>& newUmidita) { umidita = newUmidita; }
 
+    void setData(QVector<double> v);
+
 private:
     QVector<double> umidita;
 
