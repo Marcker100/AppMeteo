@@ -417,6 +417,7 @@ QPushButton:hover:!pressed {
     </property>
     <addaction name="actionSave"/>
     <addaction name="actionQuit"/>
+    <addaction name="actionLoad"/>
    </widget>
    <widget class="QMenu" name="menuAbout">
     <property name="title">
@@ -440,6 +441,11 @@ QPushButton:hover:!pressed {
   <action name="actionHelp">
    <property name="text">
     <string>Help</string>
+   </property>
+  </action>
+  <action name="actionLoad">
+   <property name="text">
+    <string>Load</string>
    </property>
   </action>
  </widget>
