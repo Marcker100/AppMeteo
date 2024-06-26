@@ -27,8 +27,6 @@ public:
     mainWindow(QWidget *parent = nullptr);
     ~mainWindow();
 
-
-
 private slots:
 
     void on_Find_textChanged(const QString &arg1);
@@ -43,6 +41,14 @@ private slots:
 
 
     void on_simula_clicked();
+
+    void on_modifica_clicked();
+
+    void updateUI();
+
+    void on_cancella_clicked();
+
+    void on_actionLoad_triggered();
 
 private:
     QLabel *nome_sensore;

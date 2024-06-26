@@ -1,5 +1,6 @@
 #include "mainWindow.h"
 #include "addWin.h"
+#include "modWin.h"
 #include <QLabel>
 #include "ui_mainWindow.h"
 #include "sensoreGrafico.h"
@@ -7,31 +8,54 @@
 #include "Json/json.h"
 #include "Json/jsonFile.h"
 #include "gestoreSensori.h"
-#include "RandomValueGenerator.h"
 
+void mainWindow::updateUI() {
+    if (sensoreSelezionato) {
+        ui->nome_sensore->setText(sensoreSelezionato->getNome());
+        ui->parametri->setText(sensoreSelezionato->getDescrizione());
 
+        // Aggiorna il pulsante corrispondente nella lista
+        for (int i = 0; i < containerLayout->count(); ++i) {
+            QWidget* widget = containerLayout->itemAt(i)->widget();
+            if (QPushButton* button = qobject_cast<QPushButton*>(widget)) {
+                if (button->property("sensore_id") == sensoreSelezionato->getId()) {
+                    button->setText(sensoreSelezionato->getNome());
+                    button->setObjectName(sensoreSelezionato->getNome());
+                    button->update(); // Forza l'aggiornamento visuale
+                    qDebug() << "Pulsante aggiornato:" << button->text() << "con ID:" << sensoreSelezionato->getId();
+                    break;
+                }
+            }
+        }
+
+        // Aggiorna il grafico se esiste
+        if (sensoriGrafici.contains(sensoreSelezionato->getId())) {
+            sensoriGrafici[sensoreSelezionato->getId()]->updateChartWithNewData();
+        }
+    }
+}
 
 void mainWindow::updateButtons(sensore* nuovoSensore)
 {
     qDebug() << "updateButtons called with sensore: " << nuovoSensore->getNome();
     QPushButton* temp = nullptr;
 
-    // Cerca se esiste già un bottone per il nuovo sensore
+    // Cerca se esiste già un bottone per il sensore
     for (int i = 0; i < containerLayout->count(); ++i) {
         QWidget* widget = containerLayout->itemAt(i)->widget();
-        if (widget != nullptr && widget->objectName() == nuovoSensore->getNome()) {
+        if (widget != nullptr && widget->property("sensore_id") == nuovoSensore->getId()) {
             temp = qobject_cast<QPushButton*>(widget);
             break;
         }
     }
 
-    // Se non esiste un bottone esistente, creane uno nuovo
+    // Se non esiste un bottone, creane uno nuovo
     if (temp == nullptr) {
         temp = new QPushButton(nuovoSensore->getNome());
         temp->setFixedWidth(175);
         temp->setFixedHeight(75);
-        containerLayout->setAlignment(Qt::AlignHCenter | Qt::AlignTop);
-        temp->setObjectName(nuovoSensore->getNome()); // Imposta il nome dell'oggetto per facilitare la ricerca
+        temp->setObjectName(nuovoSensore->getNome());
+        temp->setProperty("sensore_id", nuovoSensore->getId());
 
         temp->setStyleSheet(
             "QPushButton {"
@@ -49,62 +73,66 @@ void mainWindow::updateButtons(sensore* nuovoSensore)
             );
 
         containerLayout->addWidget(temp);
+    } else {
+        // Se il bottone esiste già, aggiorna solo il testo
+        temp->setText(nuovoSensore->getNome());
     }
 
     // Rendi visibile il bottone
     temp->setVisible(true);
 
+    // Disconnetti eventuali connessioni esistenti
+    temp->disconnect();
 
-   connect(temp, &QPushButton::clicked, this, [this, nuovoSensore]() {
-        this->pulsanteSelezionato(nuovoSensore);
-    });
+    // Crea una nuova connessione
     connect(temp, &QPushButton::clicked, this, [this, nuovoSensore]() {
+        this->pulsanteSelezionato(nuovoSensore);
+
         QString nomeSensore = nuovoSensore->getNome();
         if (!sensoriGrafici.contains(nomeSensore)) {
-            // Se non esiste un grafico per questo sensore, creane uno nuovo
             sensoriGrafici[nomeSensore] = new sensoreGrafico(nuovoSensore, ui->grafico);
             chartViews[nomeSensore] = sensoriGrafici[nomeSensore]->getChartView();
             ui->grafico->layout()->addWidget(chartViews[nomeSensore]);
         }
-        // Nascondi tutti i grafici
         for (auto chartView : chartViews) {
             chartView->hide();
         }
-        // Mostra il grafico del sensore selezionato
         chartViews[nomeSensore]->show();
     });
 }
 
-
 void mainWindow::pulsanteSelezionato(sensore* sensoreScelto)
 {
-    qDebug() << "pulsanteSelezionato called with sensore: " << sensoreScelto->getNome();
+    if (sensoreScelto) {
+        sensoreSelezionato = sensoreScelto;
+        ui->modifica->setEnabled(true);
+        ui->nome_sensore->setText(sensoreScelto->getNome());
+        ui->parametri->setText(sensoreScelto->getDescrizione());
 
-    ui->nome_sensore->setText(sensoreScelto->getNome());
-    ui->parametri->setText(sensoreScelto->getDescrizione());
+        qDebug() << "pulsanteSelezionato: " << sensoreScelto->getNome();
 
-    ui->nome_sensore->update(); // Forza l'aggiornamento della QLabel
-    ui->parametri->update();
+        ui->nome_sensore->update();
+        ui->parametri->update();
 
-    // Aggiorna il widget genitore
-    if (ui->nome_sensore->parentWidget()) {
-        ui->nome_sensore->parentWidget()->update();
+        if (ui->nome_sensore->parentWidget()) {
+            ui->nome_sensore->parentWidget()->update();
+        }
+        if (ui->parametri->parentWidget()) {
+            ui->parametri->parentWidget()->update();
+        }
+    } else {
+        qDebug() << "Errore: sensoreScelto è nullo";
     }
-    if (ui->parametri->parentWidget()) {
-        ui->parametri->parentWidget()->update();
-    }
-    sensoreSelezionato=sensoreScelto;
 }
 
 mainWindow::mainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
+    , sensoreSelezionato(nullptr)
 {
-
     ui->setupUi(this);
     ui->parametri->setFixedWidth(600);
-
-
+    ui->modifica->setEnabled(false);
 
     gestore = new gestoreSensori();
 
@@ -113,8 +141,6 @@ mainWindow::mainWindow(QWidget *parent)
     containerLayout->setAlignment(Qt::AlignHCenter | Qt::AlignTop);
     containerWidget->setLayout(containerLayout);
 
-
-
     QScrollArea* scroll_area = new QScrollArea();
     scroll_area->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     scroll_area->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
@@ -122,51 +148,41 @@ mainWindow::mainWindow(QWidget *parent)
     scroll_area->setFixedWidth(210);
     scroll_area->setWidget(containerWidget);
 
-
-
-
     if (!ui->lista->layout()) {
         ui->lista->setLayout(new QVBoxLayout());
     }
     ui->lista->setFixedWidth(220);
-     ui->lista->layout()->addWidget(scroll_area);
+    ui->lista->layout()->addWidget(scroll_area);
 
+    connect(gestore, &gestoreSensori::sensorAggiunto, this, &mainWindow::updateButtons);
 
-     connect(gestore, &gestoreSensori::sensorAggiunto, this, &mainWindow::updateButtons);
+    nome_sensore = new QLabel;
+    parametri = new QLabel;
 
+    if (ui->primo->layout()) {
+        ui->primo->layout()->addWidget(nome_sensore);
+    } else {
+        QVBoxLayout* primoLayout = new QVBoxLayout();
+        primoLayout->addWidget(nome_sensore);
+        ui->primo->setLayout(primoLayout);
+    }
 
-     nome_sensore = new QLabel;
-     parametri = new QLabel;
-
-     // Aggiungi nome_sensore al layout del QFrame "primo"
-     if (ui->primo->layout()) {
-         ui->primo->layout()->addWidget(nome_sensore);
-     } else {
-         QVBoxLayout* primoLayout = new QVBoxLayout();
-         primoLayout->addWidget(nome_sensore);
-         ui->primo->setLayout(primoLayout);
-     }
-
-     // Aggiungi parametri al layout del QFrame "descrizione"
-     if (ui->descrizione->layout()) {
-         ui->descrizione->layout()->addWidget(parametri);
-     } else {
-         QVBoxLayout* descrizioneLayout = new QVBoxLayout();
-         descrizioneLayout->addWidget(parametri);
-         ui->descrizione->setLayout(descrizioneLayout);
-     }
-
+    if (ui->descrizione->layout()) {
+        ui->descrizione->layout()->addWidget(parametri);
+    } else {
+        QVBoxLayout* descrizioneLayout = new QVBoxLayout();
+        descrizioneLayout->addWidget(parametri);
+        ui->descrizione->setLayout(descrizioneLayout);
+    }
 }
+
 mainWindow::~mainWindow()
 {
     delete ui;
 }
 
-
-
 void mainWindow::on_Find_textChanged(const QString &searchText)
 {
-    // Nascondi tutti i bottoni esistenti
     for (int i = 0; i < containerLayout->count(); ++i) {
         QWidget* widget = containerLayout->itemAt(i)->widget();
         if (widget != nullptr) {
@@ -178,7 +194,6 @@ void mainWindow::on_Find_textChanged(const QString &searchText)
     for (auto p = needToWidget.begin(); p != needToWidget.end(); p++) {
         QPushButton* temp = nullptr;
 
-        // Cerca un bottone esistente con lo stesso nome del sensore
         for (int i = 0; i < containerLayout->count(); ++i) {
             QWidget* widget = containerLayout->itemAt(i)->widget();
             if (widget != nullptr && widget->objectName() == (*p)->getNome()) {
@@ -187,34 +202,25 @@ void mainWindow::on_Find_textChanged(const QString &searchText)
             }
         }
 
-        // Se il testo di ricerca è vuoto o il nome del sensore contiene il testo di ricerca (senza distinzione tra maiuscole e minuscole)
         if (temp && (searchText.isEmpty() || temp->text().contains(searchText, Qt::CaseInsensitive))) {
             temp->setVisible(true);
         }
     }
 }
+
 void mainWindow::on_actionQuit_triggered()
 {
     qApp->exit();
 }
 
-
 void mainWindow::on_Add_clicked()
 {
-     qInfo() << "sono dentro";
-    // Crea un oggetto della finestra AddWin
+    qInfo() << "sono dentro";
     addWin *addForm = new addWin(this, gestore);
-
-
-    // Mostra la finestra AddWin
     addForm->show();
 }
-
-
-
-void mainWindow::on_actionSave_triggered()
-{
-
+//SAVE LOAD
+void mainWindow::on_actionSave_triggered() {
     QString path = QFileDialog::getSaveFileName(
         this,
         "Creates new JSON",
@@ -224,58 +230,113 @@ void mainWindow::on_actionSave_triggered()
     if (path.isEmpty()) {
         return;
     }
-    if(!path.contains(".json")){
+    if (!path.contains(".json")) {
         path.append(".json");
     }
 
-    Reader reader;
-    Json converter(reader);
-    jsonFile filejson(path, converter);
-    filejson.store(gestore->getSensori());
+    gestore->saveSensoriToJson(path);
 }
+void mainWindow::on_actionLoad_triggered() {
+    QString path = QFileDialog::getOpenFileName(
+        this,
+        "Open JSON",
+        "./",
+        "JSON files *.json"
+        );
+    if (path.isEmpty()) {
+        return;
+    }
 
-
-
-
+    gestore->loadSensoriFromJson(path);
+    updateUI();
+}
 void mainWindow::on_simula_clicked()
 {
     if (sensoreSelezionato == nullptr) {
         return;
     }
 
-    QString nomeSensore = sensoreSelezionato->getNome();
+    QString sensorId = sensoreSelezionato->getId();
 
-    if (sensoriGrafici.contains(nomeSensore)) {
-        sensoriGrafici[nomeSensore]->updateChartWithNewData();
+    if (sensoriGrafici.contains(sensorId)) {
+        sensoriGrafici[sensorId]->updateChartWithNewData();
     } else {
         sensoreGrafico* nuovoGrafico = new sensoreGrafico(sensoreSelezionato, ui->grafico);
-        sensoriGrafici[nomeSensore] = nuovoGrafico;
-        chartViews[nomeSensore] = nuovoGrafico->getChartView();
+        sensoriGrafici[sensorId] = nuovoGrafico;
+        chartViews[sensorId] = nuovoGrafico->getChartView();
 
-        // Rimuovi il vecchio grafico dal layout
         QLayoutItem* item;
         while ((item = ui->grafico->layout()->takeAt(0)) != nullptr) {
             item->widget()->hide();
             delete item;
         }
 
-        // Aggiungi il nuovo grafico al layout
-        ui->grafico->layout()->addWidget(chartViews[nomeSensore]);
-
-        // Genera i dati iniziali
+        ui->grafico->layout()->addWidget(chartViews[sensorId]);
         nuovoGrafico->updateChartWithNewData();
     }
 
-    // Nascondi tutti i grafici
     for (auto chartView : chartViews) {
         chartView->hide();
     }
-    // Mostra il grafico del sensore selezionato
-    chartViews[nomeSensore]->show();
+    chartViews[sensorId]->show();
 }
 
+void mainWindow::on_modifica_clicked() {
+    if (sensoreSelezionato) {
+        modWin *mod = new modWin(this, sensoreSelezionato, gestore);
+        connect(mod, &modWin::sensoreModificato, this, &mainWindow::updateUI);
+        if (mod->exec() == QDialog::Accepted) {
+            QMessageBox::information(this, "Successo", "Valori salvati");
+            updateUI();
+        }
+        delete mod;
+    } else {
+        QMessageBox::warning(this, "Errore", "Nessun sensore selezionato.");
+    }
+}
 
+void mainWindow::on_cancella_clicked() {
+    if (sensoreSelezionato) {
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::question(this, "Conferma cancellazione",
+                                      "Sei sicuro di voler cancellare questo sensore?",
+                                      QMessageBox::Yes|QMessageBox::No);
+        if (reply == QMessageBox::Yes) {
+            QString nomeSensore = sensoreSelezionato->getNome();
+            QString sensorId = sensoreSelezionato->getId();
 
+            gestore->delSens(sensoreSelezionato);
+
+            // Rimuovi il pulsante corrispondente
+            for (int i = 0; i < containerLayout->count(); ++i) {
+                QWidget* widget = containerLayout->itemAt(i)->widget();
+                if (QPushButton* button = qobject_cast<QPushButton*>(widget)) {
+                    if (button->property("sensore_id").toString() == sensorId) {
+                        containerLayout->removeWidget(button);
+                        delete button;
+                        break;
+                    }
+                }
+            }
+
+            // Rimuovi il grafico se esiste
+            if (sensoriGrafici.contains(sensorId)) {
+                delete sensoriGrafici[sensorId];
+                sensoriGrafici.remove(sensorId);
+                chartViews.remove(sensorId);
+            }
+
+            sensoreSelezionato = nullptr;
+            ui->nome_sensore->clear();
+            ui->parametri->clear();
+            ui->modifica->setEnabled(false);
+
+            QMessageBox::information(this, "Successo", "Sensore cancellato con successo");
+        }
+    } else {
+        QMessageBox::warning(this, "Errore", "Nessun sensore selezionato.");
+    }
+}
 
 
 

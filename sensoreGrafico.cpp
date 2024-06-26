@@ -63,6 +63,8 @@ void sensoreGrafico::updateChartWithNewData()
 
     qDebug() << "Valori generati per " << m_sensore->getNome() << ": " << values;
 
+
+
     for (int i = 0; i < values.size(); ++i) {
         m_series->append(i, values[i]);
     }
@@ -70,4 +72,9 @@ void sensoreGrafico::updateChartWithNewData()
     m_chart->removeSeries(m_series);
     m_chart->addSeries(m_series);
     m_chart->createDefaultAxes();
+}
+void sensoreGrafico::setSensore(sensore* nuovoSensore) {
+    this->m_sensore = nuovoSensore;
+    // Aggiorna il titolo del grafico o altri dettagli se necessario
+    m_chart->setTitle(nuovoSensore->getNome() + " - Grafico");
 }

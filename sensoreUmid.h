@@ -8,6 +8,7 @@ public:
     void accept(sensoreVisitor& visitor) override;
     void accept(sensoreVisitorConst& visitor) const override;
     QVector<double> getUmidita() const;
+    void setUmidita(const QVector<double>& newUmidita) { umidita = newUmidita; }
 
 private:
     QVector<double> umidita;

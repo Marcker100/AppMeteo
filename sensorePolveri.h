@@ -9,6 +9,8 @@ public:
     void accept(sensoreVisitor& visitor) override;
     void accept(sensoreVisitorConst& visitor) const override;
     QVector<double> getConcentrazione() const;
+    void setPolveri(const QVector<double>& newPolveri) { concentrazione = newPolveri; }
+
 
 private:
     QVector<double> concentrazione;

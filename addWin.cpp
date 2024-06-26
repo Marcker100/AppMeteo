@@ -7,62 +7,45 @@
 #include "ui_addWin.h"
 #include "gestoreSensori.h"
 #include "sensore.h"
-addWin::addWin(QWidget *parent, gestoreSensori *gestore) : QMainWindow(parent), gestore(gestore)
+
+addWin::addWin(QWidget *parent, gestoreSensori *gestore)
+    : QDialog(parent), ui(new Ui::Dialog), gestore(gestore)
 {
-    QDialog *dialog = new QDialog;
-    ui = new Ui::Dialog;
-    ui->setupUi(dialog);
-    setCentralWidget(dialog);
-    resize(500, 300);
+    ui->setupUi(this);
+
     connect(ui->buttonBox, &QDialogButtonBox::rejected, this, &addWin::on_buttonBox_rejected);
     connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &addWin::on_buttonBox_accepted);
 }
-addWin::~addWin()
-{
+
+addWin::~addWin() {
     delete ui;
 }
 
-
-void addWin::on_buttonBox_accepted()
-{
-    QString descrizione, nome, id;
-    int pos;
+void addWin::on_buttonBox_accepted() {
+    QString descrizione = ui->descrizione->text();
+    QString nome = ui->nome_2->text();
+    QString id = ui->spinBox->text();
+    int pos = ui->scelta->currentIndex();
     QVector<double> dati;
 
+    sensore *temp = nullptr;
 
-    qDebug()<<"sono accetatto";
+    switch (pos) {
+    case 0: temp = new sensorePolveri(nome, id, descrizione, dati); break;
+    case 1: temp = new sensorePressione(nome, id, descrizione, dati); break;
+    case 2: temp = new sensoreTemp(nome, id, descrizione, dati); break;
+    case 3: temp = new sensoreUmid(nome, id, descrizione, dati); break;
+    case 4: temp = new sensoreUv(nome, id, descrizione, dati); break;
+    }
 
-    id = ui->spinBox->text();
-    descrizione = ui->descrizione->text();
-    nome = ui->nome_2->text();
-    pos = ui->scelta->currentIndex();
-
-    sensore *temp;
-
-    if(pos == 0)  temp = new sensorePolveri(nome,id,descrizione,dati);
-    else if(pos ==1)  temp = new sensorePressione(nome,id,descrizione,dati);
-    else if(pos ==2)  temp = new sensoreTemp(nome,id,descrizione,dati);
-    else if(pos ==3)  temp = new sensoreUmid(nome,id,descrizione,dati);
-    else if(pos ==4)  temp = new sensoreUv(nome,id,descrizione,dati);
-
-    qDebug()<<"pos: "<<pos;
-
-    gestore->addSens(temp);
-
-    emit gestore->sensorAggiunto(temp);
+    if (temp) {
+        gestore->addSens(temp);
+        emit gestore->sensorAggiunto(temp);
+    }
 
     this->close();
-
 }
 
-
-void addWin::on_buttonBox_rejected()
-{
-    qDebug()<<"sono negro";
-
-
-
+void addWin::on_buttonBox_rejected() {
     this->close();
-
 }
-

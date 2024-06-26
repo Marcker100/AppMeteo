@@ -1,36 +1,28 @@
-// addWin.h
-
 #ifndef ADDWIN_H
 #define ADDWIN_H
 
-#include <QWidget> // Includi gli header necessari per la tua classe
-#include <QMainWindow>
-#include "gestoreSensori.h"
-#include "ui_addWin.h"
+#include <QDialog>
 
-QT_BEGIN_NAMESPACE
 namespace Ui {
-class addWin;
+class Dialog;
 }
-QT_END_NAMESPACE
 
-class addWin : public QMainWindow
-{
+class gestoreSensori;
+
+class addWin : public QDialog {
     Q_OBJECT
+
 public:
     explicit addWin(QWidget *parent = nullptr, gestoreSensori *gestore = nullptr);
     ~addWin();
-private:
-    Ui::Dialog *ui;
-    gestoreSensori *gestore;
 
-signals:
-
-public slots:
-              // Aggiungi qui i tuoi metodi pubblici o slot personalizzati
 private slots:
     void on_buttonBox_accepted();
     void on_buttonBox_rejected();
+
+private:
+    Ui::Dialog *ui;
+    gestoreSensori *gestore;
 };
 
 #endif // ADDWIN_H

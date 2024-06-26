@@ -1,11 +1,14 @@
 #ifndef GESTORESENSORI_H
 #define GESTORESENSORI_H
-#include "qobject.h"
-#include "sensore.h"
 
-class gestoreSensori : public QObject  // Eredita da QObject per utilizzare i segnali
-{
-    Q_OBJECT  // Macro necessaria per i segnali e gli slot
+#include <QObject>
+#include <QVector>
+#include "sensore.h"
+#include "Json/jsonFile.h"
+#include "Json/Reader.h"
+
+class gestoreSensori : public QObject {
+    Q_OBJECT
 
 public:
     gestoreSensori();
@@ -13,15 +16,18 @@ public:
 
     void addSens(sensore* sensor);
     void delSens(sensore* sensor);
+    void modificaSensore(sensore* sensor);  // Aggiungiamo la dichiarazione
     const QVector<sensore*>& getSensori();
+    void saveSensoriToJson(const QString& path);
+    void loadSensoriFromJson(const QString& path);
 
-    //segnali che servono
 signals:
     void sensorAggiunto(sensore* sensor);
     void sensorCancellato(sensore* sensor);
+    void sensorModificato(sensore* sensor);  // Nuovo segnale per sensore modificato
 
 private:
     QVector<sensore*> sensori;
 };
 
-#endif // GESTORESENSORI_H gestoreSensori gestoreSensori();
+#endif // GESTORESENSORI_H

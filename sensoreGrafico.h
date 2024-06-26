@@ -16,6 +16,7 @@ public:
     QChartView* getChartView() const { return m_chartView; }
     void createEmptyChart();
     void updateChartWithNewData();
+    void setSensore(sensore* nuovoSensore);
 
 private:
     sensore* m_sensore;

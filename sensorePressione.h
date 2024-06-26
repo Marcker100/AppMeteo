@@ -8,6 +8,7 @@ public:
     void accept(sensoreVisitor& visitor) override;
     void accept(sensoreVisitorConst& visitor) const override;
     QVector<double> getPressione() const;
+    void setPressione(const QVector<double>& newPressione) { pressione = newPressione; }
 
 private:
     QVector<double> pressione;

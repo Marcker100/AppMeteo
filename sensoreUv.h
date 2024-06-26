@@ -8,6 +8,7 @@ public:
     void accept(sensoreVisitor& visitor) override;
     void accept(sensoreVisitorConst& visitor) const override;
     QVector<double> getUv() const;
+    void setUv(const QVector<double>& newUv) { uv = newUv; }
 
 private:
     QVector<double> uv;
